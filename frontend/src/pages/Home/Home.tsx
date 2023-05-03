@@ -10,27 +10,6 @@ export const Home = () => {
     weight: number
   }
 
-  /*
-  interface Pokemon {
-    name: string
-    id: number
-  }
-
-  const pokemonsList = [
-    {
-      name: "Carapuce",
-      id: 7,
-    },
-    {
-      name: "Carabaffe",
-      id: 8,
-    },
-    {
-      name: "Tortank",
-      id: 9,
-    },
-  ]*/
-
   const [pokemonFilterValue, setPokemonFilterValue] = React.useState("")
   const [pokemonsList, setPokemonsList] = React.useState<PokemonInfo[]>([])
 
@@ -39,9 +18,12 @@ export const Home = () => {
   }
 
   React.useEffect(() => {
-    fetchPokemons()
-      .then(response => response.json())
-      .then(pokemonData => setPokemonsList(pokemonData))
+    const loadPokemons = async () => {
+      const response = await fetchPokemons()
+      const pokemonData = await response.json()
+      setPokemonsList(pokemonData)
+    }
+    loadPokemons()
   }, [])
 
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
