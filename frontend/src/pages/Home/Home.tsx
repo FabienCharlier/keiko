@@ -3,6 +3,14 @@ import styles from "./Home.module.css"
 import { Pokemon } from "components/Pokemon"
 
 export const Home = () => {
+  interface PokemonInfo {
+    name: string
+    id: number
+    height: number
+    weight: number
+  }
+
+  /*
   interface Pokemon {
     name: string
     id: number
@@ -21,15 +29,26 @@ export const Home = () => {
       name: "Tortank",
       id: 9,
     },
-  ]
+  ]*/
 
   const [pokemonFilterValue, setPokemonFilterValue] = React.useState("")
+  const [pokemonsList, setPokemonsList] = React.useState<PokemonInfo[]>([])
+
+  const fetchPokemons = () => {
+    return fetch("http://localhost:8000/pokemons", { headers: { accept: "application/json" } })
+  }
+
+  React.useEffect(() => {
+    fetchPokemons()
+      .then(response => response.json())
+      .then(pokemonData => setPokemonsList(pokemonData))
+  }, [])
 
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPokemonFilterValue(event.target.value)
   }
 
-  const filterPokemonsByName = (pokemons: Pokemon[], userInput: string) => {
+  const filterPokemonsByName = (pokemons: PokemonInfo[], userInput: string) => {
     return pokemons.filter(pokemon => pokemon.name.includes(userInput))
   }
 
