@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start":  "react-scripts --openssl-legacy-provider start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -11,6 +11,7 @@
     "lint:fix": "eslint --max-warnings 0 --fix --ignore-path .gitignore . ; prettier --ignore-path .gitignore --write **/*.{html,css,md,json}"
   },
   "dependencies": {
+    "msw": "^1.2.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-intl": "^5.21.1",

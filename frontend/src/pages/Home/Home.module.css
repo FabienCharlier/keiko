@@ -12,3 +12,17 @@
   border-color: rgb(118, 118, 118);
   border-image: initial;
 }
+
+.pokemonList {
+  font-size: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+.title {
+  font-size: 30px;
+  margin: 1.5rem;
+}
