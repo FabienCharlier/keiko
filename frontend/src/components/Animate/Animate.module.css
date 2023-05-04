@@ -60,10 +60,17 @@
   animation-duration: 500ms;
   animation-fill-mode: both;
   animation-name: tada;
+  width: 20%;
+  height: 25%;
 }
 
 .wobbleAnimation {
   animation-duration: 1s;
   animation-fill-mode: both;
   animation-name: wobble;
+}
+
+.default {
+  width: 20%;
+  height: 25%;
 }
