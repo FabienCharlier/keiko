@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import styles from "./Pokemon.module.css"
-import { Animate } from "components/Animate"
+import { useAnimate } from "components/useAnimate"
 
 interface Props {
   name: string
@@ -9,10 +9,12 @@ interface Props {
   height: number
 }
 
-const PokemonComponent = ({ name, id, weight, height }: Props) => {
+export const Pokemon = ({ name, id, weight, height }: Props) => {
   const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+
+  const output = useAnimate()
   return (
-    <div className={styles.pokemonFrame}>
+    <div className={output.hovered ? styles.pokemonFrameHovered : styles.pokemonFrameDefault} {...output.props}>
       <Link to={`/pokemon/${id}`}>
         <div className={styles.contentBox}>
           <p className={styles.pokemonName}>{name}</p>
@@ -25,5 +27,3 @@ const PokemonComponent = ({ name, id, weight, height }: Props) => {
     </div>
   )
 }
-
-export const Pokemon = Animate<Props>("tada")(PokemonComponent)
