@@ -23,12 +23,13 @@ export const Home = () => {
   }
 
   const handleError = (errorMessage: string) => {
-    setErrorMessage(errorMessage as string)
+    setErrorMessage(errorMessage)
   }
 
   React.useEffect(() => {
     const loadPokemons = async () => {
       try {
+        setErrorMessage("")
         const response = await fetchPokemons()
         if (response.ok) {
           const pokemonData = await response.json()
