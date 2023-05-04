@@ -2,6 +2,7 @@ import React from "react"
 import styles from "./Home.module.css"
 import { Pokemon } from "components/Pokemon"
 import { Loader } from "components/Loader"
+import { useParams, Link } from "react-router-dom"
 
 export const Home = () => {
   interface PokemonInfo {
@@ -15,40 +16,57 @@ export const Home = () => {
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
   const [errorMessage, setErrorMessage] = React.useState<string>("")
 
+  const { page } = useParams()
+
   const fetchPokemons = () => {
-    return fetch("http://localhost:8000/pokemons", { headers: { accept: "application/json" } })
+    return fetch(`http://localhost:8000/pokemons?page=${page}`, { headers: { accept: "application/json" } })
+  }
+
+  const handleError = (errorMessage: string) => {
+    setErrorMessage(errorMessage as string)
   }
 
   React.useEffect(() => {
     const loadPokemons = async () => {
       try {
         const response = await fetchPokemons()
-        const pokemonData = await response.json()
-        setPokemonsList(pokemonData)
-        setIsLoading(false)
+        if (response.ok) {
+          const pokemonData = await response.json()
+          setPokemonsList(pokemonData)
+          setIsLoading(false)
+        } else {
+          const errorMessage = await response.text()
+          handleError(errorMessage)
+        }
       } catch (error) {
-        setErrorMessage(error as string)
+        handleError(error as string)
       }
     }
     loadPokemons()
-  }, [])
+  }, [page])
 
   const displayHome = () => {
     return (
-      <div>
+      <>
         <div className={styles.title}>Pokedex !</div>
         {!isLoading ? (
-          <div className={styles.pokemonList}>
-            {pokemonsList.map(({ name, id, weight, height }) => {
-              return <Pokemon name={name} id={id} weight={weight} height={height} key={id} />
-            })}
-          </div>
+          <>
+            <div className={styles.navigationBox}>
+              {page != "0" ? <Link to={`/pokedex/${parseInt(page!) - 1}`}>page précédente</Link> : <p></p>}
+              {page != "10" ? <Link to={`/pokedex/${parseInt(page!) + 1}`}>page suivante</Link> : <p></p>}
+            </div>
+            <div className={styles.pokemonList}>
+              {pokemonsList.map(({ name, id, weight, height }) => {
+                return <Pokemon name={name} id={id} weight={weight} height={height} key={id} />
+              })}
+            </div>
+          </>
         ) : (
           <div>
             <Loader />
           </div>
         )}
-      </div>
+      </>
     )
   }
 
