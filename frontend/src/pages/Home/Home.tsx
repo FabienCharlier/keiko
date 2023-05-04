@@ -18,10 +18,6 @@ export const Home = () => {
 
   const { page } = useParams()
 
-  const fetchPokemons = () => {
-    return fetch(`http://localhost:8000/pokemons?page=${page}`, { headers: { accept: "application/json" } })
-  }
-
   const handleError = (errorMessage: string) => {
     setErrorMessage(errorMessage)
   }
@@ -30,7 +26,9 @@ export const Home = () => {
     const loadPokemons = async () => {
       try {
         setErrorMessage("")
-        const response = await fetchPokemons()
+        const response = await fetch(`http://localhost:8000/pokemons?page=${page}`, {
+          headers: { accept: "application/json" },
+        })
         if (response.ok) {
           const pokemonData = await response.json()
           setPokemonsList(pokemonData)
@@ -53,8 +51,8 @@ export const Home = () => {
         {!isLoading ? (
           <>
             <div className={styles.navigationBox}>
-              {page != "0" ? <Link to={`/pokedex/${parseInt(page!) - 1}`}>page précédente</Link> : <p></p>}
-              {page != "10" ? <Link to={`/pokedex/${parseInt(page!) + 1}`}>page suivante</Link> : <p></p>}
+              {page != "0" ? <Link to={`/pokedex/${parseInt(page!) - 1}`}>{"<"}</Link> : <p></p>}
+              {page != "10" ? <Link to={`/pokedex/${parseInt(page!) + 1}`}>{">"}</Link> : <p></p>}
             </div>
             <div className={styles.pokemonList}>
               {pokemonsList.map(({ name, id, weight, height }) => {

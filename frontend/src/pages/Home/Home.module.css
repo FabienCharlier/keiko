@@ -32,4 +32,5 @@
   display: flex;
   width: 90%;
   justify-content: space-between;
+  font-size: 50px;
 }

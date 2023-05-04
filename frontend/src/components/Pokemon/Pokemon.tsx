@@ -18,7 +18,7 @@ export const Pokemon = ({ name, id, weight, height }: Props) => {
       <Link to={`/pokemon/${id}`}>
         <div className={styles.contentBox}>
           <p className={styles.pokemonName}>{name}</p>
-          <img src={imageUrl} alt="Pokémon {name}" />
+          <img src={imageUrl} alt={`Pokémon ${name}`} />
           <p>Id : {id}</p>
           <p>Poids : {weight / 10} kg</p>
           <p>Taille : {height * 10} cm</p>

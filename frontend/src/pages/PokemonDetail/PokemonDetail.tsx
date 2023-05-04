@@ -21,19 +21,15 @@ export const PokemonDetail = () => {
   const [errorMessage, setErrorMessage] = React.useState<string>("")
   const { id } = useParams()
 
-  const fetchPokemon = () => {
-    return fetch(`http://localhost:8000/pokemon/${id}`, { headers: { accept: "application/json" } })
-  }
-
-  const handleError = (errorMessage: string) => {
-    setErrorMessage(errorMessage)
-  }
-
   React.useEffect(() => {
+    const handleError = (errorMessage: string) => {
+      setErrorMessage(errorMessage)
+    }
+
     const loadPokemon = async () => {
       try {
         setErrorMessage("")
-        const response = await fetchPokemon()
+        const response = await fetch(`http://localhost:8000/pokemon/${id}`, { headers: { accept: "application/json" } })
         if (response.ok) {
           const pokemon = await response.json()
           setDisplayedPokemon(pokemon)
@@ -46,14 +42,18 @@ export const PokemonDetail = () => {
         handleError(error as string)
       }
     }
-    loadPokemon()
-  }, [])
 
-  const frontImageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
-  const backImageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png`
-  const shinyFrontImageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${id}.png`
-  const shinyBackImageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/${id}.png`
+    loadPokemon()
+  }, [id])
+
+  const baseUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon"
+  const frontImageUrl = `${baseUrl}/${id}.png`
+  const backImageUrl = `${baseUrl}/back/${id}.png`
+  const shinyFrontImageUrl = `${baseUrl}/shiny/${id}.png`
+  const shinyBackImageUrl = `${baseUrl}/back/shiny/${id}.png`
+
   const { name, weight, height } = displayedPokemon
+
   return (
     <div className={styles.intro}>
       {errorMessage != "" ? (
@@ -66,10 +66,14 @@ export const PokemonDetail = () => {
         <div>
           <p className={styles.title}>{name}</p>
           <div className={styles.pictureContainer}>
-            <img className={styles.picture} src={frontImageUrl} alt="Pokémon {name}, vue de face" />
-            <img className={styles.picture} src={backImageUrl} alt="Pokémon {name}, vue de dos" />
-            <img className={styles.picture} src={shinyFrontImageUrl} alt="Pokémon {name}, version shiny, vue de face" />
-            <img className={styles.picture} src={shinyBackImageUrl} alt="Pokémon {name}, version shiny, vue de dos" />
+            <img className={styles.picture} src={frontImageUrl} alt={`Pokémon ${name}, vue de face`} />
+            <img className={styles.picture} src={backImageUrl} alt={`Pokémon ${name}, vue de dos`} />
+            <img
+              className={styles.picture}
+              src={shinyFrontImageUrl}
+              alt={`Pokémon ${name}, version shiny, vu de face`}
+            />
+            <img className={styles.picture} src={shinyBackImageUrl} alt={`Pokémon ${name}, version shiny, vu de dos`} />
           </div>
           <p className={styles.details}>Id : {id}</p>
           <p className={styles.details}>Poids : {weight / 10} kg</p>
