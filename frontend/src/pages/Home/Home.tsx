@@ -13,6 +13,7 @@ export const Home = () => {
 
   const [pokemonsList, setPokemonsList] = React.useState<PokemonInfo[]>([])
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
+  const [errorMessage, setErrorMessage] = React.useState<string>("")
 
   const fetchPokemons = () => {
     return fetch("http://localhost:8000/pokemons", { headers: { accept: "application/json" } })
@@ -20,28 +21,36 @@ export const Home = () => {
 
   React.useEffect(() => {
     const loadPokemons = async () => {
-      const response = await fetchPokemons()
-      const pokemonData = await response.json()
-      setPokemonsList(pokemonData)
-      setIsLoading(false)
+      try {
+        const response = await fetchPokemons()
+        const pokemonData = await response.json()
+        setPokemonsList(pokemonData)
+        setIsLoading(false)
+      } catch (error) {
+        setErrorMessage(error as string)
+      }
     }
     loadPokemons()
   }, [])
 
-  return (
-    <div className={styles.intro}>
-      <div className={styles.title}>Pokedex !</div>
-      {!isLoading ? (
-        <div className={styles.pokemonList}>
-          {pokemonsList.map(({ name, id, weight, height }) => {
-            return <Pokemon name={name} id={id} weight={weight} height={height} key={id} />
-          })}
-        </div>
-      ) : (
-        <div className={styles.loader}>
-          <Loader />
-        </div>
-      )}
-    </div>
-  )
+  const displayHome = () => {
+    return (
+      <div>
+        <div className={styles.title}>Pokedex !</div>
+        {!isLoading ? (
+          <div className={styles.pokemonList}>
+            {pokemonsList.map(({ name, id, weight, height }) => {
+              return <Pokemon name={name} id={id} weight={weight} height={height} key={id} />
+            })}
+          </div>
+        ) : (
+          <div>
+            <Loader />
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  return <div className={styles.intro}>{errorMessage != "" ? <p>{errorMessage.toString()}</p> : displayHome()}</div>
 }
