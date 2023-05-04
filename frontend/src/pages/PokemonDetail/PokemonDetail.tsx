@@ -25,15 +25,25 @@ export const PokemonDetail = () => {
     return fetch(`http://localhost:8000/pokemon/${id}`, { headers: { accept: "application/json" } })
   }
 
+  const handleError = (errorMessage: string) => {
+    setErrorMessage(errorMessage)
+  }
+
   React.useEffect(() => {
     const loadPokemon = async () => {
       try {
+        setErrorMessage("")
         const response = await fetchPokemon()
-        const pokemon = await response.json()
-        setDisplayedPokemon(pokemon)
-        setIsLoading(false)
+        if (response.ok) {
+          const pokemon = await response.json()
+          setDisplayedPokemon(pokemon)
+          setIsLoading(false)
+        } else {
+          const errorMessage = await response.text()
+          handleError(errorMessage)
+        }
       } catch (error) {
-        setErrorMessage(error as string)
+        handleError(error as string)
       }
     }
     loadPokemon()
