@@ -26,23 +26,19 @@ describe("<Home />", () => {
   // Disable API mocking after the tests are done.
   afterAll(() => server.close())
 
-  it("should display bulbasaur", async () => {
+  it("should display bulbasaur and ivysaur", async () => {
     render(<Home />)
-    const pokemonName = await screen.findByText("bulbasaur")
-    const pokemonWeight = await screen.findByText("Poids : 69 kg")
-    const pokemonHeight = await screen.findByText("Taille : 7 cm")
-    expect(pokemonName).toBeInTheDocument()
-    expect(pokemonWeight).toBeInTheDocument()
-    expect(pokemonHeight).toBeInTheDocument()
-  })
-
-  it("should display ivysaur", async () => {
-    render(<Home />)
-    const pokemonName = await screen.findByText("ivysaur")
-    const pokemonWeight = await screen.findByText("Poids : 130 kg")
-    const pokemonHeight = await screen.findByText("Taille : 10 cm")
-    expect(pokemonName).toBeInTheDocument()
-    expect(pokemonWeight).toBeInTheDocument()
-    expect(pokemonHeight).toBeInTheDocument()
+    const bulbasaurName = await screen.findByText("bulbasaur")
+    const bulbasaurWeight = await screen.findByText("Poids : 6.9 kg")
+    const bulbasaurHeight = await screen.findByText("Taille : 70 cm")
+    expect(bulbasaurName).toBeInTheDocument()
+    expect(bulbasaurWeight).toBeInTheDocument()
+    expect(bulbasaurHeight).toBeInTheDocument()
+    const ivysaurName = await screen.findByText("ivysaur")
+    const ivysaurWeight = await screen.findByText("Poids : 13 kg")
+    const ivysaurHeight = await screen.findByText("Taille : 100 cm")
+    expect(ivysaurName).toBeInTheDocument()
+    expect(ivysaurWeight).toBeInTheDocument()
+    expect(ivysaurHeight).toBeInTheDocument()
   })
 })

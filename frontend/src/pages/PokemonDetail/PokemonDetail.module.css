@@ -1,0 +1,27 @@
+.intro {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 30px;
+}
+
+.title {
+  font-size: 35px;
+  margin: 1.5rem;
+  text-align: center;
+}
+
+.pictureContainer {
+  flex-wrap: wrap;
+  width: 450px;
+}
+
+.picture {
+  height: 200px;
+}
+
+.details {
+  margin-bottom: 10px;
+  text-align: center;
+}
